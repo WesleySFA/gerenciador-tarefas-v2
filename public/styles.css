@@ -1421,25 +1421,20 @@ body, input, select, textarea, button{
     font-size:0.95rem;
   }
   .notif-dropdown{
-    width:calc(100vw - 24px);
-    left:12px;
-    right:12px;
-    max-height:min(380px, calc(100dvh - 80px));
-    border-radius:12px;
-    box-shadow:0 8px 40px rgba(0,0,0,0.18);
-  }
-  .notif-dropdown-header{
-    padding:10px 14px;
+    width:calc(100vw - 20px);
+    left:10px;
+    right:10px;
+    max-height:350px;
   }
   .notif-list{
-    max-height:min(280px, calc(100dvh - 150px));
+    max-height:290px;
   }
   .notif-item{
-    padding:12px 14px;
-    gap:10px;
+    padding:10px 12px;
+    gap:8px;
   }
   .notif-item-msg{
-    font-size:0.82rem;
+    font-size:0.8rem;
   }
   .filters{
     gap:4px;
