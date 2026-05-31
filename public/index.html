@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerenciador de Tarefas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✅</text></svg>">
+<link rel="stylesheet" href="styles.css?v=12">
+<link rel="stylesheet" href="groups.css?v=12">
+</head>
+<body>
+<div class="app" id="app">
+  <header>
+    <h1>Gerenciador de Tarefas</h1>
+    <p>Organize suas atividades</p>
+  </header>
+
+  <div id="auth-section">
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="showAuthForm('login')">Entrar</button>
+      <button class="auth-tab" onclick="showAuthForm('register')">Cadastrar</button>
+    </div>
+    <div id="auth-login" class="auth-form">
+      <input id="login-email" type="email" placeholder="Email" autocomplete="email">
+      <input id="login-senha" type="password" placeholder="Senha" autocomplete="current-password">
+      <button onclick="login()">Entrar</button>
+      <p class="auth-error" id="login-error"></p>
+    </div>
+    <div id="auth-register" class="auth-form" style="display:none">
+      <input id="register-nome" placeholder="Nome">
+      <input id="register-email" type="email" placeholder="Email" autocomplete="email">
+      <input id="register-senha" type="password" placeholder="Senha" autocomplete="new-password">
+      <button onclick="register()">Cadastrar</button>
+      <p class="auth-error" id="register-error"></p>
+    </div>
+  </div>
+
+  <!-- Notification dropdown (outside sections so it works everywhere) -->
+  <div class="notif-dropdown" id="notif-dropdown" style="display:none">
+    <div class="notif-dropdown-header">
+      <strong>Notificações</strong>
+      <button class="btn-notif-mark-all" onclick="markAllNotificationsRead()">Marcar todas como lidas</button>
+    </div>
+    <div id="notif-list" class="notif-list"></div>
+  </div>
+
+  <!-- ====== TASKS SECTION ====== -->
+  <div id="tasks-section" style="display:none">
+    <div class="user-header">
+      <span>Olá, <strong id="user-name"></strong>!</span>
+      <div class="header-actions">
+        <button class="btn-nav" onclick="showSection('tasks')">📋 Tarefas</button>
+        <button class="btn-nav" onclick="showSection('groups')">👥 Grupos</button>
+        <div class="notif-container">
+          <button class="btn-notif" onclick="toggleNotifications(event)" id="notif-bell" title="Notificações">
+            🔔
+            <span class="notif-badge" id="notif-badge" style="display:none">0</span>
+          </button>
+        </div>
+        <button class="btn-logout" onclick="logout()">Sair</button>
+      </div>
+    </div>
+
+    <div class="view-toggle">
+      <button class="view-btn active" data-view="list" onclick="toggleView('list')">📋 Lista</button>
+      <button class="view-btn" data-view="kanban" onclick="toggleView('kanban')">📊 Quadro</button>
+    </div>
+
+    <div class="search-box">
+      <input id="busca" placeholder="Buscar tarefas..." oninput="filtrarBusca()">
+    </div>
+
+    <section class="form">
+      <input id="titulo" placeholder="Título da tarefa">
+      <input id="descricao" placeholder="Descrição da tarefa">
+      <div class="form-row">
+        <select id="prioridade">
+          <option value="baixa">Prioridade Baixa</option>
+          <option value="media" selected>Prioridade Média</option>
+          <option value="alta">Prioridade Alta</option>
+        </select>
+        <input type="date" id="prazo" placeholder="Prazo">
+      </div>
+      <select id="status">
+        <option value="pendente">Pendente</option>
+        <option value="andamento">Em Andamento</option>
+        <option value="concluida">Concluída</option>
+      </select>
+      <button onclick="criar()">Adicionar tarefa</button>
+    </section>
+
+    <div class="filters" id="list-filters">
+      <button class="filter-btn active" data-filter="all">Todas</button>
+      <button class="filter-btn" data-filter="pendente">Pendente</button>
+      <button class="filter-btn" data-filter="andamento">Em Andamento</button>
+      <button class="filter-btn" data-filter="concluida">Concluída</button>
+    </div>
+
+    <section id="list-view">
+      <h2>Minhas tarefas <span id="contador"></span></h2>
+      <div class="task-scroll">
+        <ul id="lista"></ul>
+      </div>
+    </section>
+
+    <section id="kanban-view" style="display:none">
+      <div class="task-scroll">
+      <div class="kanban-board">
+        <div class="kanban-column" data-status="pendente" ondrop="dropTask(event)" ondragover="allowDrop(event)" ondragleave="dragLeaveColumn(event)">
+          <div class="kanban-header pendente">
+            <span>📋 Pendente</span>
+            <span class="kanban-count" id="count-pendente">0</span>
+          </div>
+          <div class="kanban-list" id="kanban-pendente"></div>
+        </div>
+        <div class="kanban-column" data-status="andamento" ondrop="dropTask(event)" ondragover="allowDrop(event)" ondragleave="dragLeaveColumn(event)">
+          <div class="kanban-header andamento">
+            <span>⏳ Em Andamento</span>
+            <span class="kanban-count" id="count-andamento">0</span>
+          </div>
+          <div class="kanban-list" id="kanban-andamento"></div>
+        </div>
+        <div class="kanban-column" data-status="concluida" ondrop="dropTask(event)" ondragover="allowDrop(event)" ondragleave="dragLeaveColumn(event)">
+          <div class="kanban-header concluida">
+            <span>✅ Concluída</span>
+            <span class="kanban-count" id="count-concluida">0</span>
+          </div>
+          <div class="kanban-list" id="kanban-concluida"></div>
+        </div>
+      </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ====== GROUPS SECTION ====== -->
+  <div id="groups-section" style="display:none">
+    <div class="user-header">
+      <span>Olá, <strong id="user-name-groups"></strong>!</span>
+      <div class="header-actions">
+        <button class="btn-nav" onclick="showSection('tasks')">📋 Tarefas</button>
+        <button class="btn-nav active" onclick="showSection('groups')">👥 Grupos</button>
+        <div class="notif-container">
+          <button class="btn-notif" onclick="toggleNotifications(event)" id="notif-bell-groups" title="Notificações">
+            🔔
+            <span class="notif-badge" id="notif-badge-groups" style="display:none">0</span>
+          </button>
+        </div>
+        <button class="btn-logout" onclick="logout()">Sair</button>
+      </div>
+    </div>
+
+    <!-- Group list -->
+    <div id="groups-list-view">
+      <div class="groups-header">
+        <h2>Meus Grupos</h2>
+        <button class="btn-primary" onclick="showCreateGroup()">+ Novo Grupo</button>
+      </div>
+
+      <div class="join-group-form">
+        <input id="invite-code-input" placeholder="Código de convite">
+        <button onclick="joinGroup()">Entrar no Grupo</button>
+      </div>
+
+      <div id="create-group-form" class="create-group-form" style="display:none">
+        <h3>Criar Novo Grupo</h3>
+        <input id="group-nome" placeholder="Nome do grupo">
+        <textarea id="group-descricao" placeholder="Descrição do grupo (opcional)"></textarea>
+        <div class="form-row">
+          <button class="btn-primary" onclick="createGroup()">Criar Grupo</button>
+          <button class="btn-secondary" onclick="cancelCreateGroup()">Cancelar</button>
+        </div>
+      </div>
+
+      <div id="groups-list" class="groups-list"></div>
+    </div>
+
+    <!-- Group detail -->
+    <div id="group-detail-view" style="display:none">
+      <div class="group-detail-header">
+        <button class="btn-back" onclick="showGroupsList()">← Voltar</button>
+        <h2 id="group-detail-name"></h2>
+      </div>
+
+      <div class="group-tabs">
+        <button class="group-tab active" data-group-tab="tasks" onclick="switchGroupTab('tasks')">📋 Tarefas</button>
+        <button class="group-tab" data-group-tab="members" onclick="switchGroupTab('members')">👥 Membros</button>
+      </div>
+
+      <!-- Group tasks -->
+      <div id="group-tasks-tab">
+        <section class="form">
+          <h3>Nova Tarefa</h3>
+          <input id="g-titulo" placeholder="Título da tarefa">
+          <input id="g-descricao" placeholder="Descrição da tarefa">
+          <div class="form-row">
+            <select id="g-prioridade">
+              <option value="baixa">Prioridade Baixa</option>
+              <option value="media" selected>Prioridade Média</option>
+              <option value="alta">Prioridade Alta</option>
+            </select>
+            <input type="date" id="g-prazo">
+          </div>
+          <select id="g-assigned-to">
+            <option value="">Atribuir para...</option>
+          </select>
+          <button onclick="createGroupTask()">Adicionar tarefa</button>
+        </section>
+
+        <div class="search-box">
+          <input id="g-busca" placeholder="Buscar tarefas do grupo..." oninput="filtrarBuscaGrupo()">
+        </div>
+
+        <div class="filters">
+          <button class="filter-btn active" data-gfilter="all" onclick="setGroupFilter('all')">Todas</button>
+          <button class="filter-btn" data-gfilter="pendente" onclick="setGroupFilter('pendente')">Pendente</button>
+          <button class="filter-btn" data-gfilter="andamento" onclick="setGroupFilter('andamento')">Em Andamento</button>
+          <button class="filter-btn" data-gfilter="concluida" onclick="setGroupFilter('concluida')">Concluída</button>
+        </div>
+
+        <div class="view-toggle">
+          <button class="view-btn" data-gview="list" onclick="toggleGroupView('list')">📋 Lista</button>
+          <button class="view-btn active" data-gview="kanban" onclick="toggleGroupView('kanban')">📊 Quadro</button>
+        </div>
+
+        <section id="group-list-view" style="display:none">
+          <div class="task-scroll">
+          <ul id="group-lista"></ul>
+          </div>
+        </section>
+
+        <section id="group-kanban-view">
+          <div class="task-scroll">
+          <div class="kanban-board">
+            <div class="kanban-column" data-status="pendente" ondrop="dropGroupTask(event)" ondragover="allowGroupDrop(event)" ondragleave="dragLeaveGroupColumn(event)">
+              <div class="kanban-header pendente">
+                <span>📋 Pendente</span>
+                <span class="kanban-count" id="g-count-pendente">0</span>
+              </div>
+              <div class="kanban-list" id="g-kanban-pendente"></div>
+            </div>
+            <div class="kanban-column" data-status="andamento" ondrop="dropGroupTask(event)" ondragover="allowGroupDrop(event)" ondragleave="dragLeaveGroupColumn(event)">
+              <div class="kanban-header andamento">
+                <span>⏳ Em Andamento</span>
+                <span class="kanban-count" id="g-count-andamento">0</span>
+              </div>
+              <div class="kanban-list" id="g-kanban-andamento"></div>
+            </div>
+            <div class="kanban-column" data-status="concluida" ondrop="dropGroupTask(event)" ondragover="allowGroupDrop(event)" ondragleave="dragLeaveGroupColumn(event)">
+              <div class="kanban-header concluida">
+                <span>✅ Concluída</span>
+                <span class="kanban-count" id="g-count-concluida">0</span>
+              </div>
+              <div class="kanban-list" id="g-kanban-concluida"></div>
+            </div>
+          </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Group members -->
+      <div id="group-members-tab" style="display:none">
+        <div class="invite-section">
+          <h3>Convidar Pessoas</h3>
+          <p>Compartilhe o código de convite abaixo:</p>
+          <div class="invite-code-box">
+            <code id="group-invite-code"></code>
+            <button onclick="copyInviteCode()">Copiar</button>
+          </div>
+          <button class="btn-secondary" onclick="refreshInviteCode()">🔁 Gerar novo código</button>
+        </div>
+
+        <h3>Membros</h3>
+        <ul id="group-members-list" class="members-list"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="toast-container" class="toast-container"></div>
+
+<!-- Assignment Modal -->
+<div id="assign-modal" class="modal-overlay" style="display:none" onclick="closeAssignModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Atribuir Tarefa</h3>
+      <button class="modal-close" onclick="closeAssignModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p id="assign-task-name" class="modal-task-name"></p>
+      <select id="assign-user-select" class="modal-select">
+        <option value="">Remover atribuição</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeAssignModal()">Cancelar</button>
+      <button class="btn-primary" onclick="confirmAssign()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js?v=13"></script>
+<script src="groups.js?v=13"></script>
+</body>
+</html>
