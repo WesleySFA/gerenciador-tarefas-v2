@@ -345,7 +345,7 @@
 }
 
 /* Group-specific responsive */
-@media(max-width:768px){
+@media(max-width:1024px){
   .groups-header{
     flex-direction:column;
     gap:10px;
@@ -357,6 +357,9 @@
   .groups-header button{
     width:100%;
   }
+}
+
+@media(max-width:768px){
   .group-detail-header{
     flex-direction:column;
     gap:10px;
