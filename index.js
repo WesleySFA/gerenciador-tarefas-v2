@@ -7,8 +7,8 @@ const bcrypt = require('bcryptjs')
 const groupsRouter = require('./groups')
 
 const app = express()
-const PORT = 3000
-console.error("DEBUG: Starting app | PORT=" + PORT + " (env PORT=" + process.env.PORT + ") | JWT_SECRET=" + (process.env.JWT_SECRET ? "set" : "NOT SET") + " | MYSQL_URL=" + (process.env.MYSQL_URL ? "set" : "NOT SET"))
+const PORT = process.env.PORT || 3000
+console.error("DEBUG: Starting app | PORT=" + PORT + " | JWT_SECRET=" + (process.env.JWT_SECRET ? "set" : "NOT SET") + " | MYSQL_URL=" + (process.env.MYSQL_URL ? "set" : "NOT SET"))
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-dev-key-not-for-production'
 app.use(cors())
 app.use('/health', (req, res) => {
