@@ -526,11 +526,12 @@ function toggleNotifications(e) {
       dropdown.style.bottom = "auto"
       dropdown.style.maxWidth = ""
     } else {
-      dropdown.style.maxWidth = (vw - 20) + "px"
-      const dw = dropdown.offsetWidth
-      let left = rect.right - dw
+      const maxWidth = Math.min(360, vw - 20)
+      dropdown.style.width = maxWidth + "px"
+      dropdown.style.maxWidth = maxWidth + "px"
+      let left = rect.right - maxWidth
       if (left < 10) left = 10
-      if (left + dw > vw - 10) left = vw - dw - 10
+      if (left + maxWidth > vw - 10) left = vw - maxWidth - 10
       dropdown.style.top = (rect.bottom + 8) + "px"
       dropdown.style.left = left + "px"
       dropdown.style.right = "auto"
