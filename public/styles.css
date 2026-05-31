@@ -656,10 +656,6 @@ background:#dc2626;
     min-width:240px;
     flex:0 0 auto;
   }
-  .notif-dropdown{
-    right:10px;
-    left:auto;
-  }
 }
 
 @media(max-width:768px){
@@ -710,7 +706,6 @@ header h1{
 .notif-dropdown{
   width:300px;
   right:10px;
-  left:10px;
 }
 .header-actions{
 gap:6px;
@@ -826,6 +821,7 @@ li{
 .notif-dropdown{
   position:fixed;
   width:360px;
+  max-width:calc(100vw - 10px);
   max-height:400px;
   background:white;
   border-radius:var(--radius-sm);
@@ -1179,11 +1175,7 @@ body, input, select, textarea, button{
     font-size:0.85rem;
   }
   .notif-dropdown{
-    width:calc(100vw - 10px);
-    left:5px;
-    right:5px;
     max-height:300px;
-    top:45px;
   }
   .notif-list{
     max-height:240px;
@@ -1620,9 +1612,6 @@ body, input, select, textarea, button{
     padding:5px 2px;
   }
   .notif-dropdown{
-    width:calc(100vw - 6px);
-    left:3px;
-    right:3px;
     max-height:260px;
   }
   .botoes button{
