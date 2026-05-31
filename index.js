@@ -8,23 +8,22 @@ const groupsRouter = require('./groups')
 
 const app = express()
 const PORT = process.env.PORT || 3000
+console.log("PORT env:", process.env.PORT, "| Using port:", PORT)
 const JWT_SECRET = process.env.JWT_SECRET
 if (!JWT_SECRET) {
     console.error("JWT_SECRET não definido no .env! Encerrando.")
     process.exit(1)
 }
 app.use(cors())
+app.use('/health', (req, res) => {
+    res.status(200).json({ status: dbReady ? "ok" : "starting", port: PORT, timestamp: new Date().toISOString() })
+})
 app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} - IP: ${req.ip}, Origin: ${req.headers.origin || 'none'}, Content-Type: ${req.headers['content-type'] || 'none'}`)
     next()
 })
 app.use(express.json())
 app.use(express.static('public'))
-
-// Health check (always responds, even without DB)
-app.get('/health', (req, res) => {
-    res.json({ status: dbReady ? "ok" : "starting", timestamp: new Date().toISOString() })
-})
 const DB_CONFIG = (() => {
     const dbUrl = process.env.MYSQL_URL || process.env.DATABASE_URL
     if (dbUrl) {
@@ -426,8 +425,8 @@ app.use((req, res) => {
     }
 })
 
-app.listen(PORT, () => {
-    console.log("Servidor rodando http://localhost:3000")
+app.listen(PORT, '0.0.0.0', () => {
+    console.log("Servidor rodando na porta " + PORT)
     initDB().then(() => {
         console.log("Banco de dados MySQL conectado")
     }).catch(err => {
