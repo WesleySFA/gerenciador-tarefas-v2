@@ -776,6 +776,26 @@ li{
   gap:8px;
 }
 
+/* Desktop: garante tamanhos originais dos botoes */
+@media(min-width:769px){
+  .header-actions .btn-nav{
+    padding:8px 14px;
+    font-size:0.85rem;
+    margin-right:6px;
+    flex:none;
+  }
+  .header-actions .btn-logout{
+    padding:8px 16px;
+    font-size:0.85rem;
+    flex:none;
+  }
+  .header-actions .btn-notif{
+    padding:8px 12px;
+    font-size:1.1rem;
+    flex:none;
+  }
+}
+
 /* Notification bell */
 .notif-container{
   position:relative;
