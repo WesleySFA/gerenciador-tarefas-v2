@@ -1129,21 +1129,34 @@ body, input, select, textarea, button{
 @media(max-width:480px){
   body{
     min-height:100dvh;
+    padding:4px;
+    padding-top:6px;
   }
   .app{
-    padding:16px 12px;
-    border-radius:12px;
+    padding:10px 8px;
+    border-radius:10px;
   }
   header h1{
-    font-size:1.15rem;
+    font-size:1rem;
+    margin-bottom:2px;
+  }
+  header{
+    margin-bottom:8px;
   }
   header p{
-    font-size:0.75rem;
+    display:none;
   }
   .user-header{
-    flex-direction:column;
-    gap:10px;
-    align-items:flex-start;
+    flex-direction:row;
+    flex-wrap:wrap;
+    gap:6px;
+    padding-bottom:8px;
+    margin-bottom:8px;
+    align-items:center;
+  }
+  .user-header span{
+    width:100%;
+    font-size:0.78rem;
   }
   .header-actions{
     width:100%;
@@ -1154,191 +1167,229 @@ body, input, select, textarea, button{
   .header-actions .btn-logout{
     flex:1;
     text-align:center;
-    font-size:0.72rem;
-    padding:7px 4px;
+    font-size:0.68rem;
+    padding:6px 3px;
     min-width:0;
   }
   .notif-container{
     flex:0 0 auto;
   }
   .btn-notif{
-    padding:7px 10px;
-    font-size:0.95rem;
+    padding:6px 8px;
+    font-size:0.85rem;
   }
   .notif-dropdown{
-    width:calc(100vw - 20px);
-    left:10px;
-    right:10px;
-    max-height:350px;
+    width:calc(100vw - 10px);
+    left:5px;
+    right:5px;
+    max-height:300px;
+    top:45px;
   }
   .notif-list{
-    max-height:290px;
+    max-height:240px;
   }
   .notif-item{
-    padding:10px 12px;
-    gap:8px;
+    padding:8px 10px;
+    gap:6px;
   }
   .notif-item-msg{
-    font-size:0.8rem;
-  }
-  .filters{
-    gap:4px;
-  }
-  .filter-btn{
-    padding:5px 6px;
-    font-size:0.7rem;
-    min-width:50px;
-  }
-  .view-toggle{
-    gap:4px;
-  }
-  .view-btn{
-    padding:7px 4px;
     font-size:0.75rem;
   }
+  .filters{
+    gap:3px;
+    margin-bottom:6px;
+  }
+  .filter-btn{
+    padding:4px 4px;
+    font-size:0.65rem;
+    min-width:0;
+  }
+  .view-toggle{
+    gap:3px;
+    margin-bottom:6px;
+  }
+  .view-btn{
+    padding:6px 3px;
+    font-size:0.7rem;
+  }
   h2{
-    font-size:1rem;
+    font-size:0.9rem;
+    margin-bottom:6px;
   }
   #contador{
-    font-size:0.8rem;
+    font-size:0.72rem;
+  }
+  .search-box{
+    margin-bottom:6px;
   }
   .search-box input{
-    font-size:0.8rem;
-    padding:8px 10px;
+    font-size:0.78rem;
+    padding:6px 8px;
   }
   .form{
-    gap:8px;
-    margin-bottom:12px;
+    gap:4px;
+    margin-bottom:8px;
   }
   input, select{
-    font-size:0.82rem;
-    padding:9px 10px;
+    font-size:0.78rem;
+    padding:7px 8px;
   }
   .form-row{
-    gap:8px;
+    gap:4px;
   }
   button{
-    font-size:0.82rem;
-    padding:9px 14px;
+    font-size:0.78rem;
+    padding:7px 10px;
   }
   li{
-    padding:12px;
-    gap:10px;
+    padding:8px;
+    gap:6px;
   }
   .task-title{
-    font-size:0.9rem;
+    font-size:0.85rem;
   }
   .task-desc{
-    font-size:0.8rem;
+    font-size:0.75rem;
+    margin-bottom:4px;
   }
   .task-status{
-    font-size:0.65rem;
-    padding:3px 8px;
+    font-size:0.6rem;
+    padding:2px 6px;
   }
   .task-meta{
-    gap:4px;
-    margin:6px 0;
+    gap:3px;
+    margin:4px 0;
   }
   .task-prazo,
   .task-date{
-    font-size:0.65rem;
-    padding:3px 8px;
+    font-size:0.62rem;
+    padding:2px 6px;
+  }
+  .task-dates{
+    margin-top:4px;
+    gap:2px;
   }
   .botoes{
-    gap:4px;
+    gap:3px;
   }
   .botoes button{
-    padding:6px 8px;
-    font-size:0.72rem;
+    padding:5px 6px;
+    font-size:0.68rem;
     flex:1;
     min-width:0;
   }
   .prioridade-dot{
-    width:8px;
-    height:8px;
+    width:7px;
+    height:7px;
   }
   .kanban-board{
     flex-direction:column;
     overflow-x:visible;
+    gap:6px;
   }
   .kanban-column{
     min-width:auto;
     flex:none;
-    padding:8px;
+    padding:6px;
   }
   .kanban-header{
-    padding:8px 10px;
-    font-size:0.8rem;
+    padding:6px 8px;
+    font-size:0.75rem;
+    margin-bottom:6px;
+  }
+  .kanban-list{
+    min-height:60px;
+    gap:4px;
   }
   .kanban-card{
-    padding:10px;
+    padding:8px;
   }
   .kanban-card-header strong{
-    font-size:0.82rem;
+    font-size:0.78rem;
+  }
+  .kanban-card-header{
+    gap:4px;
+    margin-bottom:4px;
   }
   .kanban-card-desc{
-    font-size:0.75rem;
+    font-size:0.72rem;
+    margin-bottom:4px;
   }
   .kanban-card-meta{
-    font-size:0.7rem;
+    font-size:0.65rem;
+    margin-bottom:4px;
   }
   .kanban-card-actions button{
-    font-size:0.65rem;
-    padding:5px 6px;
+    font-size:0.6rem;
+    padding:4px 5px;
+  }
+  .kanban-empty{
+    padding:12px;
+    font-size:0.75rem;
   }
   .auth-tabs{
-    margin-bottom:14px;
+    margin-bottom:10px;
   }
   .auth-tab{
-    padding:10px 8px;
-    font-size:0.85rem;
+    padding:8px 6px;
+    font-size:0.8rem;
   }
   .auth-form{
-    gap:10px;
+    gap:6px;
   }
   .auth-form input{
-    font-size:0.85rem;
-    padding:10px 12px;
+    font-size:0.8rem;
+    padding:8px 10px;
+  }
+  .auth-form button{
+    margin-top:2px;
   }
   .empty-state{
-    padding:24px 16px;
+    padding:16px 12px;
   }
   .empty-state span{
-    font-size:2.2rem;
+    font-size:1.8rem;
+    margin-bottom:6px;
+  }
+  #auth-section{
+    margin:12px auto;
   }
   .modal-header{
-    padding:14px 16px 0;
+    padding:10px 12px 0;
   }
   .modal-header h3{
-    font-size:1rem;
+    font-size:0.9rem;
   }
   .modal-body{
-    padding:14px 16px;
+    padding:10px 12px;
   }
   .modal-footer{
-    padding:0 16px 14px;
-    gap:8px;
+    padding:0 12px 10px;
+    gap:6px;
   }
   .modal-footer button{
     flex:1;
     text-align:center;
-    font-size:0.82rem;
+    font-size:0.78rem;
+    padding:8px 10px;
   }
   .modal-task-name{
-    font-size:0.85rem;
+    font-size:0.8rem;
+    margin-bottom:10px;
   }
   .modal-select{
-    padding:12px 14px;
-    font-size:0.85rem;
+    padding:10px 12px;
+    font-size:0.8rem;
   }
   .toast{
-    max-width:calc(100vw - 40px);
-    padding:12px 16px;
-    font-size:0.85rem;
+    max-width:calc(100vw - 20px);
+    padding:10px 14px;
+    font-size:0.8rem;
   }
   .toast-container{
-    right:10px;
-    left:10px;
+    right:5px;
+    left:5px;
+    top:10px;
   }
 }
   header h1{
@@ -1545,55 +1596,64 @@ body, input, select, textarea, button{
 
 @media(max-width:380px){
   .app{
-    padding:12px 8px;
-    border-radius:10px;
+    padding:8px 6px;
+    border-radius:8px;
   }
   header h1{
-    font-size:1rem;
+    font-size:0.9rem;
   }
   .header-actions .btn-nav,
   .header-actions .btn-logout{
-    font-size:0.65rem;
-    padding:6px 3px;
+    font-size:0.6rem;
+    padding:5px 2px;
   }
   .btn-notif{
-    padding:6px 8px;
-    font-size:0.85rem;
+    padding:5px 7px;
+    font-size:0.78rem;
   }
   .filter-btn{
-    font-size:0.62rem;
-    padding:4px 4px;
-    min-width:40px;
+    font-size:0.58rem;
+    padding:3px 3px;
   }
   .view-btn{
-    font-size:0.68rem;
-    padding:6px 3px;
+    font-size:0.62rem;
+    padding:5px 2px;
   }
   .notif-dropdown{
-    width:calc(100vw - 10px);
-    left:5px;
-    right:5px;
+    width:calc(100vw - 6px);
+    left:3px;
+    right:3px;
+    max-height:260px;
   }
   .botoes button{
-    font-size:0.65rem;
-    padding:5px 6px;
+    font-size:0.6rem;
+    padding:4px 5px;
   }
   li{
-    padding:10px;
-  }
-  .task-status{
-    font-size:0.6rem;
-    padding:2px 6px;
-  }
-  .kanban-column{
-    min-width:auto;
     padding:6px;
   }
-  .kanban-card{
-    padding:8px;
+  .task-title{
+    font-size:0.8rem;
+  }
+  .task-status{
+    font-size:0.55rem;
+    padding:2px 5px;
   }
   input, select, button{
-    font-size:0.78rem;
-    padding:8px 8px;
+    font-size:0.74rem;
+    padding:6px 7px;
+  }
+  .kanban-column{
+    padding:4px;
+  }
+  .kanban-card{
+    padding:6px;
+  }
+  .kanban-card-header strong{
+    font-size:0.72rem;
+  }
+  .kanban-header{
+    padding:5px 6px;
+    font-size:0.7rem;
   }
 }

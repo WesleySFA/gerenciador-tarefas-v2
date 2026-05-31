@@ -436,51 +436,132 @@
 
 @media(max-width:480px){
   .groups-header h2{
-    font-size:1rem;
+    font-size:0.9rem;
+    margin-bottom:4px;
+  }
+  .groups-header{
+    gap:6px;
+    margin-bottom:8px;
+  }
+  .groups-list{
+    gap:6px;
   }
   .group-card{
-    padding:10px;
+    padding:8px;
   }
   .group-card-info strong{
-    font-size:0.85rem;
+    font-size:0.8rem;
   }
   .group-card-info span,
   .group-card-info p{
-    font-size:0.78rem;
+    font-size:0.72rem;
   }
   .group-card-role{
-    font-size:0.72rem;
+    font-size:0.65rem;
+    padding:3px 6px;
+  }
+  .group-card-actions{
+    gap:4px;
+  }
+  .btn-delete-group{
     padding:4px 8px;
+    font-size:0.7rem;
+  }
+  .group-detail-header{
+    gap:6px;
+    margin-bottom:8px;
   }
   .group-detail-header h2{
-    font-size:0.95rem;
+    font-size:0.85rem;
   }
   .btn-back{
-    padding:8px 12px;
-    font-size:0.78rem;
+    padding:6px 10px;
+    font-size:0.72rem;
+  }
+  .group-tabs{
+    margin-bottom:8px;
   }
   .group-tab{
-    font-size:0.72rem;
-    padding:7px 4px;
+    font-size:0.68rem;
+    padding:6px 3px;
+  }
+  .join-group-form{
+    gap:4px;
+    margin-bottom:8px;
+  }
+  .create-group-form{
+    padding:8px;
+    gap:6px;
+    margin-bottom:8px;
   }
   .create-group-form h3{
-    font-size:0.9rem;
+    font-size:0.82rem;
   }
   .create-group-form input,
   .create-group-form textarea{
+    font-size:0.78rem;
+    padding:7px 8px;
+    width:100%;
+    max-width:100%;
+  }
+  .create-group-form .form-row{
+    gap:4px;
+    flex-direction:column;
+  }
+  .create-group-form .form-row button{
+    width:100%;
+  }
+  .invite-section{
+    padding:8px;
+    margin-bottom:10px;
+  }
+  .invite-section h3{
     font-size:0.82rem;
-    padding:9px 10px;
+    margin-bottom:4px;
+  }
+  .invite-section p{
+    font-size:0.72rem;
+    margin-bottom:6px;
+  }
+  .invite-code-box{
+    gap:4px;
+    margin-bottom:6px;
   }
   .invite-code-box code{
-    font-size:0.85rem;
+    font-size:0.78rem;
+    padding:6px 8px;
+    letter-spacing:1px;
   }
-  .member-info strong{
-    font-size:0.85rem;
-  }
-  .member-email{
+  .invite-code-box button{
+    padding:6px 10px;
     font-size:0.72rem;
   }
-  .member-role{
+  .invite-section .btn-secondary{
+    padding:6px 10px;
+    font-size:0.72rem;
+  }
+  .members-list{
+    gap:4px;
+  }
+  .member-item{
+    padding:6px 8px;
+  }
+  .member-info strong{
+    font-size:0.8rem;
+  }
+  .member-email{
     font-size:0.68rem;
+  }
+  .member-role{
+    font-size:0.62rem;
+    padding:2px 6px;
+  }
+  .btn-danger-sm{
+    padding:5px 8px;
+    font-size:0.7rem;
+  }
+  .btn-secondary-sm{
+    padding:5px 8px;
+    font-size:0.7rem;
   }
 }
