@@ -1,0 +1,191 @@
+body{
+  padding:10px;
+}
+.app{
+  padding:20px;
+}
+header h1{
+  font-size:1.35rem;
+}
+.form-row{
+  flex-direction:column;
+  gap:10px;
+}
+.filters{
+  gap:6px;
+}
+.filter-btn{
+  padding:6px 10px;
+  font-size:0.75rem;
+  min-width:60px;
+  flex:1;
+}
+.kanban-board{
+  overflow-x:auto;
+  flex-wrap:nowrap;
+  gap:10px;
+}
+.kanban-column{
+  min-width:200px;
+  flex:0 0 auto;
+}
+.kanban-card{
+  padding:12px;
+}
+.kanban-card-actions{
+  flex-wrap:wrap;
+  gap:6px;
+}
+.kanban-card-actions button{
+  flex:1;
+  font-size:0.72rem;
+  padding:6px 8px;
+  text-align:center;
+}
+.notif-dropdown{
+  width:300px;
+  right:10px;
+}
+.header-actions{
+gap:6px;
+flex-wrap:wrap;
+}
+.header-actions .btn-nav,
+.header-actions .btn-logout{
+  flex:1;
+  text-align:center;
+  padding:8px 6px;
+  font-size:0.78rem;
+}
+.btn-notif{
+padding:6px 10px;
+font-size:1rem;
+}
+.notif-badge{
+  top:-8px;
+  right:-8px;
+  min-width:16px;
+  height:16px;
+  font-size:0.6rem;
+}
+.botoes{
+  flex-wrap:wrap;
+}
+.botoes button{
+  flex:1;
+  padding:8px 10px;
+  font-size:0.8rem;
+  text-align:center;
+}
+li{
+  flex-direction:column;
+  gap:12px;
+  padding:16px;
+}
+.task-info{
+  width:100%;
+}
+.task-meta{
+  gap:6px;
+}
+.task-scroll{
+  max-height:none;
+}
+.view-toggle{
+  gap:6px;
+}
+.view-btn{
+  padding:8px;
+  font-size:0.8rem;
+}
+.search-box input{
+  font-size:0.85rem;
+  padding:10px 12px;
+}
+.modal-content{
+  width:95%;
+  margin:10px;
+}
+.groups-header{
+  flex-direction:column;
+  gap:10px;
+  align-items:stretch;
+}
+.groups-header h2{
+  text-align:center;
+}
+.groups-header button{
+  width:100%;
+}
+.group-detail-header{
+  flex-direction:column;
+  gap:10px;
+  align-items:flex-start;
+}
+.group-detail-header h2{
+  font-size:1.05rem;
+}
+.btn-back{
+  width:100%;
+  text-align:center;
+}
+.group-card{
+  flex-direction:column;
+  gap:10px;
+  align-items:flex-start;
+}
+.group-card-actions{
+  width:100%;
+  justify-content:space-between;
+}
+.join-group-form{
+  flex-direction:column;
+}
+.join-group-form input{
+  width:100%;
+}
+.join-group-form button{
+  width:100%;
+}
+.invite-code-box{
+  flex-direction:column;
+}
+.invite-code-box code{
+  width:100%;
+  font-size:0.95rem;
+  letter-spacing:2px;
+}
+.invite-code-box button{
+  width:100%;
+}
+.members-list .member-item{
+  flex-direction:column;
+  gap:8px;
+  align-items:flex-start;
+}
+.member-item button{
+  width:100%;
+}
+.create-group-form{
+  padding:12px;
+}
+.create-group-form .form-row{
+  flex-direction:column;
+  gap:8px;
+}
+.create-group-form .form-row button{
+  width:100%;
+}
+.group-tab{
+  font-size:0.8rem;
+  padding:8px 6px;
+}
+.invite-section{
+  padding:12px;
+}
+.invite-section h3{
+  font-size:0.95rem;
+}
+.invite-section p{
+  font-size:0.82rem;
+}
