@@ -7,13 +7,9 @@ const bcrypt = require('bcryptjs')
 const groupsRouter = require('./groups')
 
 const app = express()
-const PORT = process.env.PORT || 3000
-console.log("PORT env:", process.env.PORT, "| Using port:", PORT)
-const JWT_SECRET = process.env.JWT_SECRET
-if (!JWT_SECRET) {
-    console.error("JWT_SECRET não definido no .env! Encerrando.")
-    process.exit(1)
-}
+const PORT = process.env.RAILWAY_PORT || process.env.PORT || 3000
+console.error("DEBUG: Starting app | PORT=" + PORT + " | JWT_SECRET=" + (process.env.JWT_SECRET ? "set" : "NOT SET") + " | MYSQL_URL=" + (process.env.MYSQL_URL ? "set" : "NOT SET"))
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback-dev-key-not-for-production'
 app.use(cors())
 app.use('/health', (req, res) => {
     res.status(200).json({ status: dbReady ? "ok" : "starting", port: PORT, timestamp: new Date().toISOString() })
@@ -425,8 +421,11 @@ app.use((req, res) => {
     }
 })
 
+process.on('uncaughtException', err => console.error("UNCAUGHT EXCEPTION:", err))
+process.on('unhandledRejection', err => console.error("UNHANDLED REJECTION:", err))
+
 app.listen(PORT, '0.0.0.0', () => {
-    console.log("Servidor rodando na porta " + PORT)
+    console.error("Servidor rodando na porta " + PORT)
     initDB().then(() => {
         console.log("Banco de dados MySQL conectado")
     }).catch(err => {
