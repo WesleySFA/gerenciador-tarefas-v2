@@ -531,14 +531,11 @@ function toggleNotifications(e) {
       dropdown.style.right = "auto"
       dropdown.style.bottom = "auto"
     } else {
+      dropdown.style.width = ""
       dropdown.style.maxWidth = (vw - 20) + "px"
-      const dw = dropdown.offsetWidth
-      let left = rect.right - dw
-      if (left < 10) left = 10
-      if (left + dw > vw - 10) left = vw - dw - 10
       dropdown.style.top = (rect.bottom + 8) + "px"
-      dropdown.style.left = left + "px"
-      dropdown.style.right = "auto"
+      dropdown.style.left = ""
+      dropdown.style.right = "10px"
       dropdown.style.bottom = "auto"
     }
     renderNotifications()
