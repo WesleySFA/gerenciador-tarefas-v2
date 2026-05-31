@@ -3,6 +3,214 @@ body{
   align-items:flex-start;
   padding-top:10px;
 }
+  header h1{
+    font-size:1.15rem;
+  }
+  header p{
+    font-size:0.75rem;
+  }
+  .user-header{
+    flex-direction:column;
+    gap:10px;
+    align-items:flex-start;
+  }
+  .header-actions{
+    width:100%;
+    flex-wrap:wrap;
+    gap:4px;
+  }
+  .header-actions .btn-nav,
+  .header-actions .btn-logout{
+    flex:1;
+    text-align:center;
+    font-size:0.72rem;
+    padding:7px 4px;
+    min-width:0;
+  }
+  .notif-container{
+    flex:0 0 auto;
+  }
+  .btn-notif{
+    padding:7px 10px;
+    font-size:0.95rem;
+  }
+  .notif-dropdown{
+    width:calc(100vw - 20px);
+    left:10px;
+    right:10px;
+    max-height:350px;
+  }
+  .notif-list{
+    max-height:290px;
+  }
+  .notif-item{
+    padding:10px 12px;
+    gap:8px;
+  }
+  .notif-item-msg{
+    font-size:0.8rem;
+  }
+  .filters{
+    gap:4px;
+  }
+  .filter-btn{
+    padding:5px 6px;
+    font-size:0.7rem;
+    min-width:50px;
+  }
+  .view-toggle{
+    gap:4px;
+  }
+  .view-btn{
+    padding:7px 4px;
+    font-size:0.75rem;
+  }
+  h2{
+    font-size:1rem;
+  }
+  #contador{
+    font-size:0.8rem;
+  }
+  .search-box input{
+    font-size:0.8rem;
+    padding:8px 10px;
+  }
+  .form{
+    gap:8px;
+    margin-bottom:12px;
+  }
+  input, select{
+    font-size:0.82rem;
+    padding:9px 10px;
+  }
+  .form-row{
+    gap:8px;
+  }
+  button{
+    font-size:0.82rem;
+    padding:9px 14px;
+  }
+  li{
+    padding:12px;
+    gap:10px;
+  }
+  .task-title{
+    font-size:0.9rem;
+  }
+  .task-desc{
+    font-size:0.8rem;
+  }
+  .task-status{
+    font-size:0.65rem;
+    padding:3px 8px;
+  }
+  .task-meta{
+    gap:4px;
+    margin:6px 0;
+  }
+  .task-prazo,
+  .task-date{
+    font-size:0.65rem;
+    padding:3px 8px;
+  }
+  .botoes{
+    gap:4px;
+  }
+  .botoes button{
+    padding:6px 8px;
+    font-size:0.72rem;
+    flex:1;
+    min-width:0;
+  }
+  .prioridade-dot{
+    width:8px;
+    height:8px;
+  }
+  .kanban-column{
+    padding:8px;
+  }
+  .kanban-header{
+    padding:8px 10px;
+    font-size:0.8rem;
+  }
+  .kanban-card{
+    padding:10px;
+  }
+  .kanban-card-header strong{
+    font-size:0.82rem;
+  }
+  .kanban-card-desc{
+    font-size:0.75rem;
+  }
+  .kanban-card-meta{
+    font-size:0.7rem;
+  }
+  .kanban-card-actions button{
+    font-size:0.65rem;
+    padding:5px 6px;
+  }
+  #auth-section{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    min-height:calc(100dvh - 90px);
+    margin:6px auto;
+  }
+  .auth-tabs{
+    margin-bottom:14px;
+  }
+  .auth-tab{
+    padding:10px 8px;
+    font-size:0.85rem;
+  }
+  .auth-form{
+    gap:10px;
+  }
+  .auth-form input{
+    font-size:0.85rem;
+    padding:10px 12px;
+  }
+  .empty-state{
+    padding:24px 16px;
+  }
+  .empty-state span{
+    font-size:2.2rem;
+  }
+  .modal-header{
+    padding:14px 16px 0;
+  }
+  .modal-header h3{
+    font-size:1rem;
+  }
+  .modal-body{
+    padding:14px 16px;
+  }
+  .modal-footer{
+    padding:0 16px 14px;
+    gap:8px;
+  }
+  .modal-footer button{
+    flex:1;
+    text-align:center;
+    font-size:0.82rem;
+  }
+  .modal-task-name{
+    font-size:0.85rem;
+  }
+  .modal-select{
+    padding:12px 14px;
+    font-size:0.85rem;
+  }
+  .toast{
+    max-width:calc(100vw - 40px);
+    padding:12px 16px;
+    font-size:0.85rem;
+  }
+  .toast-container{
+    right:10px;
+    left:10px;
+  }
+
 body{
   min-height:100dvh;
   padding:4px;
@@ -263,213 +471,6 @@ li{
   left:5px;
   top:10px;
 }
-  header h1{
-    font-size:1.15rem;
-  }
-  header p{
-    font-size:0.75rem;
-  }
-  .user-header{
-    flex-direction:column;
-    gap:10px;
-    align-items:flex-start;
-  }
-  .header-actions{
-    width:100%;
-    flex-wrap:wrap;
-    gap:4px;
-  }
-  .header-actions .btn-nav,
-  .header-actions .btn-logout{
-    flex:1;
-    text-align:center;
-    font-size:0.72rem;
-    padding:7px 4px;
-    min-width:0;
-  }
-  .notif-container{
-    flex:0 0 auto;
-  }
-  .btn-notif{
-    padding:7px 10px;
-    font-size:0.95rem;
-  }
-  .notif-dropdown{
-    width:calc(100vw - 20px);
-    left:10px;
-    right:10px;
-    max-height:350px;
-  }
-  .notif-list{
-    max-height:290px;
-  }
-  .notif-item{
-    padding:10px 12px;
-    gap:8px;
-  }
-  .notif-item-msg{
-    font-size:0.8rem;
-  }
-  .filters{
-    gap:4px;
-  }
-  .filter-btn{
-    padding:5px 6px;
-    font-size:0.7rem;
-    min-width:50px;
-  }
-  .view-toggle{
-    gap:4px;
-  }
-  .view-btn{
-    padding:7px 4px;
-    font-size:0.75rem;
-  }
-  h2{
-    font-size:1rem;
-  }
-  #contador{
-    font-size:0.8rem;
-  }
-  .search-box input{
-    font-size:0.8rem;
-    padding:8px 10px;
-  }
-  .form{
-    gap:8px;
-    margin-bottom:12px;
-  }
-  input, select{
-    font-size:0.82rem;
-    padding:9px 10px;
-  }
-  .form-row{
-    gap:8px;
-  }
-  button{
-    font-size:0.82rem;
-    padding:9px 14px;
-  }
-  li{
-    padding:12px;
-    gap:10px;
-  }
-  .task-title{
-    font-size:0.9rem;
-  }
-  .task-desc{
-    font-size:0.8rem;
-  }
-  .task-status{
-    font-size:0.65rem;
-    padding:3px 8px;
-  }
-  .task-meta{
-    gap:4px;
-    margin:6px 0;
-  }
-  .task-prazo,
-  .task-date{
-    font-size:0.65rem;
-    padding:3px 8px;
-  }
-  .botoes{
-    gap:4px;
-  }
-  .botoes button{
-    padding:6px 8px;
-    font-size:0.72rem;
-    flex:1;
-    min-width:0;
-  }
-  .prioridade-dot{
-    width:8px;
-    height:8px;
-  }
-  .kanban-column{
-    padding:8px;
-  }
-  .kanban-header{
-    padding:8px 10px;
-    font-size:0.8rem;
-  }
-  .kanban-card{
-    padding:10px;
-  }
-  .kanban-card-header strong{
-    font-size:0.82rem;
-  }
-  .kanban-card-desc{
-    font-size:0.75rem;
-  }
-  .kanban-card-meta{
-    font-size:0.7rem;
-  }
-  .kanban-card-actions button{
-    font-size:0.65rem;
-    padding:5px 6px;
-  }
-  #auth-section{
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    min-height:calc(100dvh - 90px);
-    margin:6px auto;
-  }
-  .auth-tabs{
-    margin-bottom:14px;
-  }
-  .auth-tab{
-    padding:10px 8px;
-    font-size:0.85rem;
-  }
-  .auth-form{
-    gap:10px;
-  }
-  .auth-form input{
-    font-size:0.85rem;
-    padding:10px 12px;
-  }
-  .empty-state{
-    padding:24px 16px;
-  }
-  .empty-state span{
-    font-size:2.2rem;
-  }
-  .modal-header{
-    padding:14px 16px 0;
-  }
-  .modal-header h3{
-    font-size:1rem;
-  }
-  .modal-body{
-    padding:14px 16px;
-  }
-  .modal-footer{
-    padding:0 16px 14px;
-    gap:8px;
-  }
-  .modal-footer button{
-    flex:1;
-    text-align:center;
-    font-size:0.82rem;
-  }
-  .modal-task-name{
-    font-size:0.85rem;
-  }
-  .modal-select{
-    padding:12px 14px;
-    font-size:0.85rem;
-  }
-  .toast{
-    max-width:calc(100vw - 40px);
-    padding:12px 16px;
-    font-size:0.85rem;
-  }
-  .toast-container{
-    right:10px;
-    left:10px;
-  }
 
 @media(max-width:380px){
   .app{
