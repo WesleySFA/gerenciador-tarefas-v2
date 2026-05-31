@@ -20,19 +20,38 @@ app.use((req, res, next) => {
 })
 app.use(express.json())
 app.use(express.static('public'))
-const DB_CONFIG = {
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    waitForConnections: true,
-    connectionLimit: 10,
-    connectTimeout: 10000,
-    queueLimit: 0
-}
+const DB_CONFIG = (() => {
+    if (process.env.MYSQL_URL) {
+        const url = new URL(process.env.MYSQL_URL)
+        return {
+            host: url.hostname,
+            user: url.username,
+            password: url.password,
+            port: url.port || 3306,
+            waitForConnections: true,
+            connectionLimit: 10,
+            connectTimeout: 10000,
+            queueLimit: 0
+        }
+    }
+    return {
+        host: process.env.DB_HOST || 'localhost',
+        user: process.env.DB_USER || 'root',
+        password: process.env.DB_PASSWORD || '',
+        waitForConnections: true,
+        connectionLimit: 10,
+        connectTimeout: 10000,
+        queueLimit: 0
+    }
+})()
 
 let pool
 async function initDB() {
     let dbName = process.env.DB_NAME || 'tarefas_db'
+    if (process.env.MYSQL_URL) {
+        const url = new URL(process.env.MYSQL_URL)
+        dbName = url.pathname.replace('/', '') || dbName
+    }
     if (!/^[a-zA-Z0-9_]+$/.test(dbName)) {
         console.error("DB_NAME inválido no .env! Use apenas letras, números e underscore.")
         process.exit(1)
