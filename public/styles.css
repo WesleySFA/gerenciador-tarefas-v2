@@ -25,10 +25,9 @@ box-sizing:border-box;
 body{
   background:var(--bg-gradient);
   min-height:100vh;
-  min-height:100dvh;
   display:flex;
   justify-content:center;
-  align-items:flex-start;
+  align-items:center;
   padding:20px;
 }
 @media(max-width:480px){

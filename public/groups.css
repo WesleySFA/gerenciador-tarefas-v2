@@ -132,8 +132,8 @@
 .create-group-form input,
 .create-group-form textarea{
   align-self:center;
-  width:100%;
-  max-width:500px;
+  width:500px;
+  max-width:90%;
 }
 .create-group-form textarea{
   padding:10px 14px;
