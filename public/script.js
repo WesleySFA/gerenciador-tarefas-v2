@@ -519,25 +519,16 @@ function toggleNotifications(e) {
     const bell = e.currentTarget
     const rect = bell.getBoundingClientRect()
     const vw = window.innerWidth
-    if (vw <= 480) {
-      const maxWidth = Math.min(360, vw - 20)
-      dropdown.style.width = maxWidth + "px"
-      dropdown.style.maxWidth = maxWidth + "px"
-      let left = rect.right - maxWidth
-      if (left < 10) left = 10
-      if (left + maxWidth > vw - 10) left = vw - maxWidth - 10
-      dropdown.style.top = (rect.bottom + 8) + "px"
-      dropdown.style.left = left + "px"
-      dropdown.style.right = "auto"
-      dropdown.style.bottom = "auto"
-    } else {
-      dropdown.style.width = ""
-      dropdown.style.maxWidth = (vw - 20) + "px"
-      dropdown.style.top = (rect.bottom + 8) + "px"
-      dropdown.style.left = ""
-      dropdown.style.right = "10px"
-      dropdown.style.bottom = "auto"
-    }
+    const maxWidth = Math.min(360, vw - 20)
+    dropdown.style.width = maxWidth + "px"
+    dropdown.style.maxWidth = maxWidth + "px"
+    let left = rect.right - maxWidth
+    if (left < 10) left = 10
+    if (left + maxWidth > vw - 10) left = vw - maxWidth - 10
+    dropdown.style.top = (rect.bottom + 8) + "px"
+    dropdown.style.left = left + "px"
+    dropdown.style.right = "auto"
+    dropdown.style.bottom = "auto"
     renderNotifications()
   }
 }
