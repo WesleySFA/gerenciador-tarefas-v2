@@ -20,9 +20,15 @@ app.use((req, res, next) => {
 })
 app.use(express.json())
 app.use(express.static('public'))
+
+// Health check (always responds, even without DB)
+app.get('/health', (req, res) => {
+    res.json({ status: dbReady ? "ok" : "starting", timestamp: new Date().toISOString() })
+})
 const DB_CONFIG = (() => {
-    if (process.env.MYSQL_URL) {
-        const url = new URL(process.env.MYSQL_URL)
+    const dbUrl = process.env.MYSQL_URL || process.env.DATABASE_URL
+    if (dbUrl) {
+        const url = new URL(dbUrl)
         return {
             host: url.hostname,
             user: url.username,
@@ -46,15 +52,23 @@ const DB_CONFIG = (() => {
 })()
 
 let pool
+let dbReady = false
+
 async function initDB() {
     let dbName = process.env.DB_NAME || 'tarefas_db'
-    if (process.env.MYSQL_URL) {
-        const url = new URL(process.env.MYSQL_URL)
-        dbName = url.pathname.replace('/', '') || dbName
+    const dbUrl = process.env.MYSQL_URL || process.env.DATABASE_URL
+    if (dbUrl) {
+        try {
+            const url = new URL(dbUrl)
+            dbName = url.pathname.replace('/', '') || dbName
+        } catch (e) {
+            console.error("Erro ao parsear URL do banco:", e.message)
+        }
     }
     if (!/^[a-zA-Z0-9_]+$/.test(dbName)) {
-        console.error("DB_NAME inválido no .env! Use apenas letras, números e underscore.")
-        process.exit(1)
+        console.error("DB_NAME inválido! Use apenas letras, números e underscore.")
+        dbReady = false
+        return
     }
 
     const tempPool = mysql.createPool({ ...DB_CONFIG, connectionLimit: 2, database: undefined })
@@ -67,9 +81,10 @@ async function initDB() {
         }
     } catch (e) {
         console.error("Erro ao conectar no MySQL:", e.message)
-        console.error("Verifique se o MySQL está rodando e as credenciais em .env estão corretas.")
+        console.error("Tabelas serão criadas quando o banco estiver disponível.")
         await tempPool.end().catch(() => {})
-        process.exit(1)
+        dbReady = false
+        return
     }
     await tempPool.end().catch(() => {})
 
@@ -146,10 +161,19 @@ async function initDB() {
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             )
         `)
+        dbReady = true
         console.log("Banco de dados atualizado com sucesso")
     } finally {
         connection.release()
     }
+}
+
+// Middleware that blocks DB-dependent routes when DB is not ready
+function requireDB(req, res, next) {
+    if (!dbReady) {
+        return res.status(503).json({ error: "Banco de dados ainda não disponível. Tente novamente em instantes." })
+    }
+    next()
 }
 function sanitize(str) {
     if (typeof str !== 'string') return str
@@ -185,7 +209,7 @@ function formatTask(row) {
         data_conclusao: row.data_conclusao
     }
 }
-app.post('/register', async (req, res) => {
+app.post('/register', requireDB, async (req, res) => {
     const nome = sanitize(req.body.nome)
     const email = sanitize(req.body.email)
     const senha = req.body.senha
@@ -211,7 +235,7 @@ app.post('/register', async (req, res) => {
         console.error(err); return res.status(500).json({ error: "Erro interno do servidor" })
     }
 })
-app.post('/login', async (req, res) => {
+app.post('/login', requireDB, async (req, res) => {
     const email = sanitize(req.body.email)
     const senha = req.body.senha
     if (!email || !senha) {
@@ -233,7 +257,7 @@ app.post('/login', async (req, res) => {
         console.error(err); return res.status(500).json({ error: "Erro interno do servidor" })
     }
 })
-app.get('/me', authMiddleware, async (req, res) => {
+app.get('/me', authMiddleware, requireDB, async (req, res) => {
     try {
         const [users] = await pool.query("SELECT id, nome, email FROM users WHERE id = ?", [req.userId])
         if (users.length === 0) return res.status(404).json({ error: 'Usuário não encontrado' })
@@ -242,7 +266,7 @@ app.get('/me', authMiddleware, async (req, res) => {
         console.error(err); return res.status(500).json({ error: "Erro interno do servidor" })
     }
 })
-app.get('/tasks', authMiddleware, async (req, res) => {
+app.get('/tasks', authMiddleware, requireDB, async (req, res) => {
     try {
         const [rows] = await pool.query("SELECT * FROM tasks WHERE user_id = ? AND group_id IS NULL ORDER BY FIELD(prioridade, 'alta', 'media', 'baixa'), ordem ASC, created_at DESC", [req.userId])
         res.json(rows.map(formatTask))
@@ -250,7 +274,7 @@ app.get('/tasks', authMiddleware, async (req, res) => {
         console.error(err); return res.status(500).json({ error: "Erro interno do servidor" })
     }
 })
-app.post('/tasks', authMiddleware, async (req, res) => {
+app.post('/tasks', authMiddleware, requireDB, async (req, res) => {
     const titulo = sanitize(req.body.titulo)
     const descricao = sanitize(req.body.descricao || "")
     const status = ["pendente", "andamento", "concluida"].includes(req.body.status) ? req.body.status : "pendente"
@@ -272,7 +296,7 @@ app.post('/tasks', authMiddleware, async (req, res) => {
         console.error(err); return res.status(500).json({ error: "Erro interno do servidor" })
     }
 })
-app.put('/tasks/:id', authMiddleware, async (req, res) => {
+app.put('/tasks/:id', authMiddleware, requireDB, async (req, res) => {
     const acao = req.body.acao
     const status = ["pendente", "andamento", "concluida"].includes(req.body.status) ? req.body.status : null
     const prioridade = ["baixa", "media", "alta"].includes(req.body.prioridade) ? req.body.prioridade : undefined
@@ -336,7 +360,7 @@ app.put('/tasks/:id', authMiddleware, async (req, res) => {
         console.error(err); return res.status(500).json({ error: "Erro interno do servidor" })
     }
 })
-app.delete('/tasks/:id', authMiddleware, async (req, res) => {
+app.delete('/tasks/:id', authMiddleware, requireDB, async (req, res) => {
     try {
         await pool.query("DELETE FROM tasks WHERE id = ? AND user_id = ? AND group_id IS NULL", [req.params.id, req.userId])
         return res.json({ message: "Tarefa deletada" })
@@ -344,7 +368,7 @@ app.delete('/tasks/:id', authMiddleware, async (req, res) => {
         console.error(err); return res.status(500).json({ error: "Erro interno do servidor" })
     }
 })
-app.get('/notifications', authMiddleware, async (req, res) => {
+app.get('/notifications', authMiddleware, requireDB, async (req, res) => {
     try {
         const [rows] = await pool.query(
             "SELECT * FROM notifications WHERE user_id = ? ORDER BY is_read ASC, created_at DESC LIMIT 50",
@@ -364,7 +388,7 @@ app.get('/notifications', authMiddleware, async (req, res) => {
         console.error(err); return res.status(500).json({ error: "Erro interno do servidor" })
     }
 })
-app.put('/notifications/read-all', authMiddleware, async (req, res) => {
+app.put('/notifications/read-all', authMiddleware, requireDB, async (req, res) => {
     try {
         await pool.query("UPDATE notifications SET is_read = 1 WHERE user_id = ?", [req.userId])
         res.json({ message: "Todas notificações marcadas como lidas" })
@@ -372,7 +396,7 @@ app.put('/notifications/read-all', authMiddleware, async (req, res) => {
         console.error(err); return res.status(500).json({ error: "Erro interno do servidor" })
     }
 })
-app.put('/notifications/:id/read', authMiddleware, async (req, res) => {
+app.put('/notifications/:id/read', authMiddleware, requireDB, async (req, res) => {
     try {
         await pool.query("UPDATE notifications SET is_read = 1 WHERE id = ? AND user_id = ?", [req.params.id, req.userId])
         res.json({ message: "Notificação marcada como lida" })
@@ -380,7 +404,7 @@ app.put('/notifications/:id/read', authMiddleware, async (req, res) => {
         console.error(err); res.status(500).json({ error: "Erro interno do servidor" })
     }
 })
-app.get('/notifications/unread-count', authMiddleware, async (req, res) => {
+app.get('/notifications/unread-count', authMiddleware, requireDB, async (req, res) => {
     try {
         const [rows] = await pool.query("SELECT COUNT(*) as count FROM notifications WHERE user_id = ? AND is_read = 0", [req.userId])
         res.json({ count: rows[0].count })
@@ -402,12 +426,11 @@ app.use((req, res) => {
     }
 })
 
-initDB().then(() => {
-    app.listen(PORT, () => {
-        console.log("Servidor rodando http://localhost:3000")
+app.listen(PORT, () => {
+    console.log("Servidor rodando http://localhost:3000")
+    initDB().then(() => {
         console.log("Banco de dados MySQL conectado")
+    }).catch(err => {
+        console.error("Falha ao conectar no MySQL:", err.message)
     })
-}).catch(err => {
-    console.error("Erro ao conectar no MySQL:", err.message)
-    process.exit(1)
 })
