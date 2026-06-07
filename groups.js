@@ -200,7 +200,7 @@ router.post('/groups/:id/invite', authMiddleware, async (req, res) => {
 router.post('/groups/join', authMiddleware, async (req, res) => {
     try {
         const pool = req.app.get('pool')
-        const code = sanitize(req.body.invite_code)
+        const code = (sanitize(req.body.invite_code) || '').toUpperCase()
         if (!code) return res.status(400).json({ error: 'Código de convite é obrigatório' })
 
         const [groups] = await pool.query("SELECT * FROM `groups` WHERE invite_code = ?", [code])
