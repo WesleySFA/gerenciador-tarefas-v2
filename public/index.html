@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gerenciador de Tarefas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,15 +26,20 @@
       <button class="auth-tab" onclick="showAuthForm('register')">Cadastrar</button>
     </div>
     <div id="auth-login" class="auth-form">
-      <input id="login-email" type="email" placeholder="Email" autocomplete="email">
-      <input id="login-senha" type="password" placeholder="Senha" autocomplete="current-password">
+      <label for="login-email" class="sr-only">Email</label>
+      <input id="login-email" type="email" placeholder="Email" autocomplete="email" required>
+      <label for="login-senha" class="sr-only">Senha</label>
+      <input id="login-senha" type="password" placeholder="Senha" autocomplete="current-password" required>
       <button onclick="login()">Entrar</button>
       <p class="auth-error" id="login-error"></p>
     </div>
     <div id="auth-register" class="auth-form" style="display:none">
-      <input id="register-nome" placeholder="Nome">
-      <input id="register-email" type="email" placeholder="Email" autocomplete="email">
-      <input id="register-senha" type="password" placeholder="Senha" autocomplete="new-password">
+      <label for="register-nome" class="sr-only">Nome</label>
+      <input id="register-nome" placeholder="Nome" required>
+      <label for="register-email" class="sr-only">Email</label>
+      <input id="register-email" type="email" placeholder="Email" autocomplete="email" required>
+      <label for="register-senha" class="sr-only">Senha</label>
+      <input id="register-senha" type="password" placeholder="Senha" autocomplete="new-password" required>
       <button onclick="register()">Cadastrar</button>
       <p class="auth-error" id="register-error"></p>
     </div>
@@ -54,10 +59,10 @@
     <div class="user-header">
       <span>Olá, <strong id="user-name"></strong>!</span>
       <div class="header-actions">
-        <button class="btn-nav" onclick="showSection('tasks')">📋 Tarefas</button>
-        <button class="btn-nav" onclick="showSection('groups')">👥 Grupos</button>
+        <button class="btn-nav" onclick="showSection('tasks')" aria-label="Tarefas">📋 Tarefas</button>
+        <button class="btn-nav" onclick="showSection('groups')" aria-label="Grupos">👥 Grupos</button>
         <div class="notif-container">
-          <button class="btn-notif" onclick="toggleNotifications(event)" id="notif-bell" title="Notificações">
+          <button class="btn-notif" onclick="toggleNotifications(event)" id="notif-bell" title="Notificações" aria-label="Notificações">
             🔔
             <span class="notif-badge" id="notif-badge" style="display:none">0</span>
           </button>
@@ -72,11 +77,14 @@
     </div>
 
     <div class="search-box">
+      <label for="busca" class="sr-only">Buscar tarefas</label>
       <input id="busca" placeholder="Buscar tarefas..." oninput="filtrarBusca()">
     </div>
 
     <section class="form">
-      <input id="titulo" placeholder="Título da tarefa">
+      <label for="titulo" class="sr-only">Título da tarefa</label>
+      <input id="titulo" placeholder="Título da tarefa" required>
+      <label for="descricao" class="sr-only">Descrição da tarefa</label>
       <input id="descricao" placeholder="Descrição da tarefa">
       <div class="form-row">
         <select id="prioridade">
@@ -142,10 +150,10 @@
     <div class="user-header">
       <span>Olá, <strong id="user-name-groups"></strong>!</span>
       <div class="header-actions">
-        <button class="btn-nav" onclick="showSection('tasks')">📋 Tarefas</button>
-        <button class="btn-nav active" onclick="showSection('groups')">👥 Grupos</button>
+        <button class="btn-nav" onclick="showSection('tasks')" aria-label="Tarefas">📋 Tarefas</button>
+        <button class="btn-nav active" onclick="showSection('groups')" aria-label="Grupos">👥 Grupos</button>
         <div class="notif-container">
-          <button class="btn-notif" onclick="toggleNotifications(event)" id="notif-bell-groups" title="Notificações">
+          <button class="btn-notif" onclick="toggleNotifications(event)" id="notif-bell-groups" title="Notificações" aria-label="Notificações">
             🔔
             <span class="notif-badge" id="notif-badge-groups" style="display:none">0</span>
           </button>
@@ -162,13 +170,16 @@
       </div>
 
       <div class="join-group-form">
-        <input id="invite-code-input" placeholder="Código de convite">
+        <label for="invite-code-input" class="sr-only">Código de convite</label>
+      <input id="invite-code-input" placeholder="Código de convite" required>
         <button onclick="joinGroup()">Entrar no Grupo</button>
       </div>
 
       <div id="create-group-form" class="create-group-form" style="display:none">
         <h3>Criar Novo Grupo</h3>
-        <input id="group-nome" placeholder="Nome do grupo">
+        <label for="group-nome" class="sr-only">Nome do grupo</label>
+        <input id="group-nome" placeholder="Nome do grupo" required>
+        <label for="group-descricao" class="sr-only">Descrição do grupo</label>
         <textarea id="group-descricao" placeholder="Descrição do grupo (opcional)"></textarea>
         <div class="form-row">
           <button class="btn-primary" onclick="createGroup()">Criar Grupo</button>
@@ -195,7 +206,9 @@
       <div id="group-tasks-tab">
         <section class="form">
           <h3>Nova Tarefa</h3>
-          <input id="g-titulo" placeholder="Título da tarefa">
+          <label for="g-titulo" class="sr-only">Título da tarefa</label>
+          <input id="g-titulo" placeholder="Título da tarefa" required>
+          <label for="g-descricao" class="sr-only">Descrição da tarefa</label>
           <input id="g-descricao" placeholder="Descrição da tarefa">
           <div class="form-row">
             <select id="g-prioridade">
@@ -212,6 +225,7 @@
         </section>
 
         <div class="search-box">
+          <label for="g-busca" class="sr-only">Buscar tarefas do grupo</label>
           <input id="g-busca" placeholder="Buscar tarefas do grupo..." oninput="filtrarBuscaGrupo()">
         </div>
 
@@ -264,7 +278,7 @@
 
       <!-- Group members -->
       <div id="group-members-tab" style="display:none">
-        <div class="invite-section">
+        <div class="invite-section" id="invite-section">
           <h3>Convidar Pessoas</h3>
           <p>Compartilhe o código de convite abaixo:</p>
           <div class="invite-code-box">
@@ -280,14 +294,14 @@
     </div>
   </div>
 </div>
-<div id="toast-container" class="toast-container"></div>
+<div id="toast-container" class="toast-container" aria-live="polite"></div>
 
 <!-- Assignment Modal -->
 <div id="assign-modal" class="modal-overlay" style="display:none" onclick="closeAssignModal(event)">
   <div class="modal-content" onclick="event.stopPropagation()">
     <div class="modal-header">
       <h3>Atribuir Tarefa</h3>
-      <button class="modal-close" onclick="closeAssignModal()">✕</button>
+      <button class="modal-close" onclick="closeAssignModal()" aria-label="Fechar">✕</button>
     </div>
     <div class="modal-body">
       <p id="assign-task-name" class="modal-task-name"></p>

@@ -242,11 +242,11 @@ function renderListView() {
         </div>
       </div>
       <div class="botoes">
-        <button class="btn-mover" onclick="moverTarefa('${task.id}', 'cima')" title="Mover para cima">↑</button>
-        <button class="btn-mover" onclick="moverTarefa('${task.id}', 'baixo')" title="Mover para baixo">↓</button>
-        ${task.status !== "andamento" ? `<button class="btn-andamento" onclick="mudarStatus('${task.id}', 'andamento')" title="Em Andamento">⏳</button>` : ""}
-        ${task.status !== "concluida" ? `<button class="btn-concluir" onclick="mudarStatus('${task.id}', 'concluida')" title="Concluir">✓</button>` : ""}
-        <button class="btn-deletar" onclick="deletar('${task.id}')" title="Excluir">✕</button>
+        <button class="btn-mover" onclick="moverTarefa('${task.id}', 'cima')" title="Mover para cima" aria-label="Mover para cima">↑</button>
+        <button class="btn-mover" onclick="moverTarefa('${task.id}', 'baixo')" title="Mover para baixo" aria-label="Mover para baixo">↓</button>
+        ${task.status !== "andamento" ? `<button class="btn-andamento" onclick="mudarStatus('${task.id}', 'andamento')" title="Em Andamento" aria-label="Em Andamento">⏳</button>` : ""}
+        ${task.status !== "concluida" ? `<button class="btn-concluir" onclick="mudarStatus('${task.id}', 'concluida')" title="Concluir" aria-label="Concluir">✓</button>` : ""}
+        <button class="btn-deletar" onclick="deletar('${task.id}')" title="Excluir" aria-label="Excluir">✕</button>
       </div>
     `
     lista.appendChild(li)
@@ -288,7 +288,7 @@ function renderKanbanView() {
           ${prazoFormatado ? `<span class="${prazoAtrasado ? 'atrasado' : ''}">📅 ${prazoFormatado}</span>` : ""}
         </div>
         <div class="kanban-card-actions">
-          <button class="btn-deletar-sm" onclick="deletar('${task.id}')" title="Excluir">✕</button>
+          <button class="btn-deletar-sm" onclick="deletar('${task.id}')" title="Excluir" aria-label="Excluir tarefa">✕</button>
         </div>
       `
       container.appendChild(card)
@@ -720,7 +720,8 @@ function loadGroupDetail() {
       return res.json()
     }).then(group => {
       document.getElementById("group-detail-name").textContent = group.nome
-      document.getElementById("group-invite-code").textContent = group.invite_code
+      document.getElementById("group-invite-code").textContent = group.invite_code || ""
+      document.getElementById("invite-section").style.display = group.invite_code ? "block" : "none"
       currentGroupMembers = group.members || []
 
       const assignSelect = document.getElementById("g-assigned-to")
@@ -912,10 +913,10 @@ function renderGroupListView() {
         </div>
       </div>
       <div class="botoes">
-        ${task.status !== "andamento" ? `<button class="btn-andamento" onclick="updateGroupTaskStatus('${task.id}', 'andamento')" title="Em Andamento">⏳</button>` : ''}
-        ${task.status !== "concluida" ? `<button class="btn-concluir" onclick="updateGroupTaskStatus('${task.id}', 'concluida')" title="Concluir">✓</button>` : ''}
-        <button class="btn-secondary-sm" onclick="editGroupTask('${task.id}')" title="Editar">✎</button>
-        <button class="btn-deletar" onclick="deleteGroupTask('${task.id}')" title="Excluir">✕</button>
+        ${task.status !== "andamento" ? `<button class="btn-andamento" onclick="updateGroupTaskStatus('${task.id}', 'andamento')" title="Em Andamento" aria-label="Em Andamento">⏳</button>` : ''}
+        ${task.status !== "concluida" ? `<button class="btn-concluir" onclick="updateGroupTaskStatus('${task.id}', 'concluida')" title="Concluir" aria-label="Concluir">✓</button>` : ''}
+        <button class="btn-secondary-sm" onclick="editGroupTask('${task.id}')" title="Editar" aria-label="Editar tarefa">✎</button>
+        <button class="btn-deletar" onclick="deleteGroupTask('${task.id}')" title="Excluir" aria-label="Excluir tarefa">✕</button>
       </div>
     `
     lista.appendChild(li)
@@ -986,8 +987,8 @@ function renderGroupKanbanView() {
           ${task.prazo ? `<span class="${prazoAtrasado ? 'atrasado' : ''}">📅 ${formatDate(task.prazo)}</span>` : ''}
         </div>
         <div class="kanban-card-actions">
-          <button class="btn-secondary-sm" onclick="editGroupTask('${task.id}')" title="Editar">✎</button>
-          <button class="btn-deletar-sm" onclick="deleteGroupTask('${task.id}')" title="Excluir">✕</button>
+          <button class="btn-secondary-sm" onclick="editGroupTask('${task.id}')" title="Editar" aria-label="Editar tarefa">✎</button>
+          <button class="btn-deletar-sm" onclick="deleteGroupTask('${task.id}')" title="Excluir" aria-label="Excluir tarefa">✕</button>
         </div>
       `
       container.appendChild(card)

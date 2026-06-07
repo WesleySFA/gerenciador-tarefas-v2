@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
+const helmet = require('helmet')
 const mysql = require('mysql2/promise')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
@@ -9,8 +10,13 @@ const groupsRouter = require('./groups')
 const app = express()
 const PORT = process.env.PORT || 3000
 console.error("DEBUG: Starting app | PORT=" + PORT + " | JWT_SECRET=" + (process.env.JWT_SECRET ? "set" : "NOT SET") + " | MYSQL_URL=" + (process.env.MYSQL_URL ? "set" : "NOT SET"))
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback-dev-key-not-for-production'
+const JWT_SECRET = process.env.JWT_SECRET
+if (!JWT_SECRET) {
+    console.error("FATAL: JWT_SECRET não definida. Configure a variável de ambiente JWT_SECRET.")
+    process.exit(1)
+}
 app.use(cors())
+app.use(helmet({ contentSecurityPolicy: false }))
 app.use('/health', (req, res) => {
     res.status(200).json({ status: dbReady ? "ok" : "starting", port: PORT, timestamp: new Date().toISOString() })
 })
@@ -18,7 +24,7 @@ app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} - IP: ${req.ip}, Origin: ${req.headers.origin || 'none'}, Content-Type: ${req.headers['content-type'] || 'none'}`)
     next()
 })
-app.use(express.json())
+app.use(express.json({ limit: '1mb' }))
 app.use(express.static('public'))
 const DB_CONFIG = (() => {
     const dbUrl = process.env.MYSQL_URL || process.env.DATABASE_URL
@@ -407,7 +413,7 @@ app.get('/notifications/unread-count', authMiddleware, requireDB, async (req, re
         console.error(err); return res.status(500).json({ error: "Erro interno do servidor" })
     }
 })
-app.use('/api', groupsRouter)
+app.use('/api', requireDB, groupsRouter)
 
 app.use((err, req, res, next) => {
     console.error("Erro não tratado:", err)

@@ -3,6 +3,10 @@ const router = express.Router()
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const JWT_SECRET = process.env.JWT_SECRET
+if (!JWT_SECRET) {
+    console.error("FATAL: JWT_SECRET não definida em groups.js. Configure a variável de ambiente JWT_SECRET.")
+    process.exit(1)
+}
 
 function sanitize(str) {
     if (typeof str !== 'string') return str
@@ -117,7 +121,7 @@ router.get('/groups', authMiddleware, async (req, res) => {
             nome: g.nome,
             descricao: g.descricao,
             owner_id: g.owner_id,
-            invite_code: g.invite_code,
+            invite_code: g.role === 'owner' ? g.invite_code : null,
             created_at: g.created_at,
             member_count: g.member_count,
             role: g.role
@@ -150,7 +154,7 @@ router.get('/groups/:id', authMiddleware, async (req, res) => {
             nome: g.nome,
             descricao: g.descricao,
             owner_id: g.owner_id,
-            invite_code: g.invite_code,
+            invite_code: role === 'owner' ? g.invite_code : null,
             created_at: g.created_at,
             members: members.map(m => ({
                 id: m.id.toString(),
